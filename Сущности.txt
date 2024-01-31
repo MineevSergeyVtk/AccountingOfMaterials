@@ -1,0 +1,7 @@
+Учет материалов - AccountingOfMaterials
+	
+	Группа Материалов - GroupOfMaterial
+		Имя - Name
+
+	Mатериал - Material
+		Имя - Name

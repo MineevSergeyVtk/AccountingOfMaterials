@@ -1,0 +1,23 @@
+﻿@model AccountingOfMaterials.Models.GroupOfMaterial
+@{
+    ViewBag.Title = "Добавление материала";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<h2>Добавление материала</h2>
+<form asp-action="create" asp-controller="home" method="post">
+    <p>
+        <label>Наименование</label><br />
+        <input name="name" />
+    </p>
+    <p>
+        <label>Описание</label><br />
+        <input name="description" />
+    </p>
+    <p>
+        <label>Группа</label>
+        <select name="nameGroup" asp-items="ViewBag.Group"></select>
+    </p>
+    <p>
+        <input type="submit" value="Сохранить" />
+    </p>
+</form>

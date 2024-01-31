@@ -1,0 +1,70 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@using AccountingOfMaterials.Models
+@model IndexViewModel
+@{
+    ViewBag.Title = "Материалы";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+<h2>Материалы</h2>
+<form method="get">
+    <label>Имя: </label>
+    <input name="name" value="@Model.FilterViewModel.SelectedName" />
+
+    <label>Компания: </label>
+    <select name="nameGroupOfMaterial" asp-items="Model.FilterViewModel.GroupOfMaterials"></select>
+
+    <input type="submit" value="Фильтр" />
+</form>
+<table>
+    <tr>
+        <th>
+            <a asp-action="Index"
+               asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+               asp-route-name="@(Model.FilterViewModel.SelectedName)"
+               asp-route-company="@(Model.FilterViewModel.GroupOfMaterials)">Имя</a>
+        </th>
+        <th>
+            Описание
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.GroupSort)"
+               asp-route-name="@(Model.FilterViewModel.SelectedName)"
+               asp-route-company="@(Model.FilterViewModel.GroupOfMaterials)">Группа</a>
+        </th>
+    </tr>
+    @foreach (Material u in Model.Materials)
+    {
+        <tr><td>@u.Name</td><td>@u.Description</td><td>@u.GroupOfMaterial?.Name</td>
+            <td>
+                <form asp-controller="Home" asp-action="Delete" method="post" asp-route-name="@u.Name">
+                    <input type="submit" value="Удалить" />
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+<p>
+    @if (Model.PageViewModel.HasPreviousPage)
+    {
+        <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+       asp-route-company="@(Model.FilterViewModel.GroupOfMaterials)"
+       asp-route-sortorder="@(Model.SortViewModel.Current)"
+           class="glyphicon glyphicon-chevron-left">
+            Назад
+        </a>
+    }
+    @if (Model.PageViewModel.HasNextPage)
+    {
+        <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+       asp-route-company="@(Model.FilterViewModel.GroupOfMaterials)"
+       asp-route-sortorder="@(Model.SortViewModel.Current)"
+           class="glyphicon glyphicon-chevron-right">
+            Вперед
+        </a>
+    }
+</p>

@@ -1,0 +1,30 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@using AccountingOfMaterials.Models
+@model IndexViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title> @ViewBag.Title</title>
+    <link href="https://localhost:7016/Home/GetFile" rel="stylesheet" />
+</head>
+<body>
+    <div id="header">
+        <h1>Справочник материалов в машиностроении</h1>
+        <div id="nav">
+            <ul>
+                <li><a asp-action="">Материалы</a></li>
+                <li><a asp-action="Create">Добавить материал</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="wrapper">
+        @RenderBody()
+    </div>
+    <div id="footer">
+        <p>Contacts: mineev.sergey.vtk@mail.ru</p>
+        <p>Машиностроение 2024</p>
+    </div>
+</body>
+</html>
