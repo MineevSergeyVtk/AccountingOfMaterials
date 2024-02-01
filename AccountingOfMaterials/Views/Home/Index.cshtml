@@ -6,65 +6,75 @@
     ViewBag.Title = "Материалы";
     Layout = "/Views/Shared/_Layout.cshtml";
 }
-<h2>Материалы</h2>
-<form method="get">
-    <label>Имя: </label>
-    <input name="name" value="@Model.FilterViewModel.SelectedName" />
-
-    <label>Компания: </label>
-    <select name="nameGroupOfMaterial" asp-items="Model.FilterViewModel.GroupOfMaterials"></select>
-
-    <input type="submit" value="Фильтр" />
-</form>
-<table>
-    <tr>
-        <th>
-            <a asp-action="Index"
-               asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+<div class="main">
+    <div>
+        <h2>Материалы</h2>
+        <table>
+            <tr>
+                <th>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@(Model.SortViewModel.NameSort)"
+                       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+                       asp-route-company="@(Model.FilterViewModel.GroupOfMaterials)">Имя</a>
+                </th>
+                <th style="width: 300px">
+                    Описание
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.GroupSort)"
+                       asp-route-name="@(Model.FilterViewModel.SelectedName)"
+                       asp-route-company="@(Model.FilterViewModel.GroupOfMaterials)">Группа</a>
+                </th>
+            </tr>
+            @foreach (Material u in Model.Materials)
+            {
+                <tr><td>@u.Name</td><td>@u.Description</td><td>@u.GroupOfMaterial?.Name</td>
+                    <td>
+                        <form asp-controller="Home" asp-action="Delete" method="post" asp-route-name="@u.Name">
+                            <input type="submit" value="Удалить" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+        <p style="text-align: center">
+            @if (Model.PageViewModel.HasPreviousPage)
+            {
+                <a asp-action="Index"
+               asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
                asp-route-name="@(Model.FilterViewModel.SelectedName)"
-               asp-route-company="@(Model.FilterViewModel.GroupOfMaterials)">Имя</a>
-        </th>
-        <th>
-            Описание
-        </th>
-        <th>
-            <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.GroupSort)"
+               asp-route-company="@(Model.FilterViewModel.GroupOfMaterials)"
+               asp-route-sortorder="@(Model.SortViewModel.Current)"
+                   class="glyphicon glyphicon-chevron-left">
+                    Назад
+                </a>
+            }
+            @if (Model.PageViewModel.HasNextPage)
+            {
+                <a asp-action="Index"
+               asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
                asp-route-name="@(Model.FilterViewModel.SelectedName)"
-               asp-route-company="@(Model.FilterViewModel.GroupOfMaterials)">Группа</a>
-        </th>
-    </tr>
-    @foreach (Material u in Model.Materials)
-    {
-        <tr><td>@u.Name</td><td>@u.Description</td><td>@u.GroupOfMaterial?.Name</td>
-            <td>
-                <form asp-controller="Home" asp-action="Delete" method="post" asp-route-name="@u.Name">
-                    <input type="submit" value="Удалить" />
-                </form>
-            </td>
-        </tr>
-    }
-</table>
-<p>
-    @if (Model.PageViewModel.HasPreviousPage)
-    {
-        <a asp-action="Index"
-       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
-       asp-route-name="@(Model.FilterViewModel.SelectedName)"
-       asp-route-company="@(Model.FilterViewModel.GroupOfMaterials)"
-       asp-route-sortorder="@(Model.SortViewModel.Current)"
-           class="glyphicon glyphicon-chevron-left">
-            Назад
-        </a>
-    }
-    @if (Model.PageViewModel.HasNextPage)
-    {
-        <a asp-action="Index"
-       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
-       asp-route-name="@(Model.FilterViewModel.SelectedName)"
-       asp-route-company="@(Model.FilterViewModel.GroupOfMaterials)"
-       asp-route-sortorder="@(Model.SortViewModel.Current)"
-           class="glyphicon glyphicon-chevron-right">
-            Вперед
-        </a>
-    }
-</p>
+               asp-route-company="@(Model.FilterViewModel.GroupOfMaterials)"
+               asp-route-sortorder="@(Model.SortViewModel.Current)"
+                   class="glyphicon glyphicon-chevron-right">
+                    Вперед
+                </a>
+            }
+        </p>
+    </div>
+    <div style="margin: 100px 100px 0px 0px">
+        <form method="get">
+            <p>
+                <label>Имя: </label>
+                <input name="name" value="@Model.FilterViewModel.SelectedName" />
+            </p>
+            <p>
+                <label>Компания: </label>
+                <select name="nameGroupOfMaterial" asp-items="Model.FilterViewModel.GroupOfMaterials"></select>
+            </p>
+            <p style="margin-left: 72px">
+                <input type="submit" value="Фильтр" />
+            </p>
+        </form>
+    </div>
+</div>
